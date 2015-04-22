@@ -1,12 +1,33 @@
 #!/usr/bin/env python
 """Distutils installer for extras."""
 
+import sys
 from setuptools import setup
+from setuptools.command.test import test as TestCommand
 import os.path
 
 import extras
-testtools_cmd = extras.try_import('testtools.TestCommand')
 
+class TestTools(TestCommand):
+    buffer = 0
+    catch = 0
+
+    def run_tests(self):
+        # import testtools here in case testtools is not installed.
+        # testtools is guaranteed to be installed now since tests_require
+        # will install it if need be.
+        import testtools
+
+        argv = [self.test_suite]
+
+        if self.buffer:
+            argv.append('--buffer')
+
+        if self.catch:
+            argv.append('--catch')
+
+        errno = testtools.run.main(argv, sys.stdout)
+        sys.exit(errno)
 
 def get_version():
     """Return the version of extras that we are building."""
@@ -19,12 +40,6 @@ def get_long_description():
     readme_path = os.path.join(
         os.path.dirname(__file__), 'README.rst')
     return open(readme_path).read()
-
-
-cmdclass = {}
-
-if testtools_cmd is not None:
-    cmdclass['test'] = testtools_cmd
 
 
 setup(name='extras',
@@ -45,4 +60,5 @@ setup(name='extras',
         'extras',
         'extras.tests',
         ],
-      cmdclass=cmdclass)
+      tests_require=['testtools'],
+      cmdclass={'test': TestTools})
