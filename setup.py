@@ -10,8 +10,7 @@ testtools_cmd = extras.try_import('testtools.TestCommand')
 
 def get_version():
     """Return the version of extras that we are building."""
-    version = '.'.join(
-        str(component) for component in extras.__version__[0:3])
+    version = extras.__version__
     return version
 
 
