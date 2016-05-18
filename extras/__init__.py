@@ -22,7 +22,8 @@ __all__ = [
 # If the releaselevel is 'final', then the tarball will be major.minor.micro.
 # Otherwise it is major.minor.micro~$(revno).
 
-__version__ = (0, 0, 3, 'final', 0)
+__version_info__ = (0, 0, 3, 'final', 0)
+__version__ = '.'.join([str(x) for x in __version_info__[0:3]])
 
 
 def try_import(name, alternative=None, error_callback=None):
