@@ -51,6 +51,5 @@ setup(name='extras',
         ],
       packages=[
         'extras',
-        'extras.tests',
         ],
       cmdclass=cmdclass)
