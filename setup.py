@@ -31,7 +31,7 @@ setup(name='extras',
       author='Testing cabal',
       author_email='testtools-dev@lists.launchpad.net',
       url='https://github.com/testing-cabal/extras',
-      description=('Useful extra bits for Python - things that shold be '
+      description=('Useful extra bits for Python - things that should be '
         'in the standard library'),
       long_description=get_long_description(),
       version=get_version(),
