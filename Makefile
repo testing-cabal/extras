@@ -1,6 +1,6 @@
 # See README.rst for copyright and licensing details.
 
-PYTHON=python
+PYTHON=python3
 SOURCES=$(shell find extras -name "*.py")
 
 check:
