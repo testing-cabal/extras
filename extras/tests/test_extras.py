@@ -11,7 +11,6 @@ from testtools.matchers import (
     )
 
 from extras import (
-    safe_hasattr,
     try_import,
     try_imports,
     )
@@ -41,37 +40,6 @@ def check_error_callback(test, function, arg, expected_error_count,
         else:
             test.assertThat(result, Is(None))
     test.assertEquals(len(cb_calls), expected_error_count)
-
-
-class TestSafeHasattr(TestCase):
-
-    def test_attribute_not_there(self):
-        class Foo(object):
-            pass
-        self.assertEqual(False, safe_hasattr(Foo(), 'anything'))
-
-    def test_attribute_there(self):
-        class Foo(object):
-            pass
-        foo = Foo()
-        foo.attribute = None
-        self.assertEqual(True, safe_hasattr(foo, 'attribute'))
-
-    def test_property_there(self):
-        class Foo(object):
-            @property
-            def attribute(self):
-                return None
-        foo = Foo()
-        self.assertEqual(True, safe_hasattr(foo, 'attribute'))
-
-    def test_property_raises(self):
-        class Foo(object):
-            @property
-            def attribute(self):
-                1/0
-        foo = Foo()
-        self.assertRaises(ZeroDivisionError, safe_hasattr, foo, 'attribute')
 
 
 class TestTryImport(TestCase):

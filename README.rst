@@ -16,8 +16,6 @@ pydoc extras is your friend. extras currently contains the following functions:
 
 * try_imports
 
-* safe_hasattr
-
 Which do what their name suggests.
 
 
@@ -31,7 +29,7 @@ the extras authors. See LICENSE for details.
 Required Dependencies
 ---------------------
 
- * Python 2.6+ or 3.0+
+ * Python 3.7+
 
 
 Bug reports and patches
