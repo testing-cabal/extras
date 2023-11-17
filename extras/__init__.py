@@ -5,7 +5,6 @@
 import sys
 
 __all__ = [
-    'safe_hasattr',
     'try_import',
     'try_imports',
     ]
@@ -96,15 +95,3 @@ def try_imports(module_names, alternative=_RAISE_EXCEPTION, error_callback=None)
         raise ImportError(
             "Could not import any of: %s" % ', '.join(module_names))
     return alternative
-
-
-def safe_hasattr(obj, attr, _marker=object()):
-    """Does 'obj' have an attribute 'attr'?
-
-    Use this rather than built-in hasattr, as the built-in swallows exceptions
-    in some versions of Python and behaves unpredictably with respect to
-    properties.
-    """
-    return getattr(obj, attr, _marker) is not _marker
-
-
