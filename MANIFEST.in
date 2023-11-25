@@ -4,3 +4,4 @@ include MANIFEST.in
 include NEWS
 include README.rst
 include .gitignore
+recursive-include extras/tests *
