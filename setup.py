@@ -1,26 +1,28 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Distutils installer for extras."""
 
-from setuptools import setup
+from setuptools import setup, Command
 import os.path
+from typing import cast
 
 import extras
 
-testtools_cmd = extras.try_import("testtools.TestCommand")
+testtools_cmd = cast(Command, extras.try_import("testtools.TestCommand"))
 
 
-def get_version():
+def get_version() -> str:
     """Return the version of extras that we are building."""
     version = ".".join(str(component) for component in extras.__version__[0:3])
     return version
 
 
-def get_long_description():
+def get_long_description() -> str:
     readme_path = os.path.join(os.path.dirname(__file__), "README.rst")
-    return open(readme_path).read()
+    with open(readme_path) as f:
+        return f.read()
 
 
-cmdclass = {}
+cmdclass: dict[str, type[Command]] = {}
 
 if testtools_cmd is not None:
     cmdclass["test"] = testtools_cmd
@@ -53,5 +55,6 @@ setup(
         "extras",
         "extras.tests",
     ],
+    package_data={"extras": ["py.typed"]},
     cmdclass=cmdclass,
 )

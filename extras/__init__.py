@@ -3,6 +3,7 @@
 """Extensions to the Python standard library."""
 
 import sys
+from typing import Optional, Callable, Sequence
 
 __all__ = [
     "try_import",
@@ -24,7 +25,11 @@ __all__ = [
 __version__ = (1, 0, 0, "final", 0)
 
 
-def try_import(name, alternative=None, error_callback=None):
+def try_import(
+    name: str,
+    alternative: Optional[object] = None,
+    error_callback: Optional[Callable[[ImportError], None]] = None,
+) -> object:
     """Attempt to import ``name``.  If it fails, return ``alternative``.
 
     When supporting multiple versions of Python or optional dependencies, it
@@ -38,7 +43,7 @@ def try_import(name, alternative=None, error_callback=None):
         when the module cannot be loaded.
     """
     module_segments = name.split(".")
-    last_error = None
+    last_error: Optional[ImportError] = None
     remainder = []
     # module_name will be what successfully imports. We cannot walk from the
     # __import__ result because in import loops (A imports A.B, which imports
@@ -48,7 +53,7 @@ def try_import(name, alternative=None, error_callback=None):
         try:
             __import__(module_name)
         except ImportError:
-            last_error = sys.exc_info()[1]
+            last_error = sys.exc_info()[1]  # type: ignore
             remainder.append(module_segments.pop())
             continue
         else:
@@ -60,7 +65,7 @@ def try_import(name, alternative=None, error_callback=None):
     module = sys.modules[module_name]
     nonexistent = object()
     for segment in reversed(remainder):
-        module = getattr(module, segment, nonexistent)
+        module = getattr(module, segment, nonexistent)  # type: ignore
         if module is nonexistent:
             if last_error is not None and error_callback is not None:
                 error_callback(last_error)
@@ -71,7 +76,11 @@ def try_import(name, alternative=None, error_callback=None):
 _RAISE_EXCEPTION = object()
 
 
-def try_imports(module_names, alternative=_RAISE_EXCEPTION, error_callback=None):
+def try_imports(
+    module_names: Sequence[str],
+    alternative: object = _RAISE_EXCEPTION,
+    error_callback: Optional[Callable[[ImportError], None]] = None,
+) -> object:
     """Attempt to import modules.
 
     Tries to import the first module in ``module_names``.  If it can be

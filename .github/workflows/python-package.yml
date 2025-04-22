@@ -24,6 +24,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install testtools
         python -m pip install ruff
+        python -m pip install mypy
     - name: Test with testtools
       run: |
         python -m testtools.run extras.tests.test_suite
@@ -33,3 +34,6 @@ jobs:
     - name: Check formatting with ruff
       run: |
         python -m ruff format --check .
+    - name: Type check with mypy
+      run: |
+        python -m mypy --strict --ignore-missing-imports --follow-imports=skip --exclude tests .
