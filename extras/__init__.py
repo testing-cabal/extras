@@ -5,9 +5,9 @@
 import sys
 
 __all__ = [
-    'try_import',
-    'try_imports',
-    ]
+    "try_import",
+    "try_imports",
+]
 
 # same format as sys.version_info: "A tuple containing the five components of
 # the version number: major, minor, micro, releaselevel, and serial. All
@@ -21,7 +21,7 @@ __all__ = [
 # If the releaselevel is 'final', then the tarball will be major.minor.micro.
 # Otherwise it is major.minor.micro~$(revno).
 
-__version__ = (1, 0, 0, 'final', 0)
+__version__ = (1, 0, 0, "final", 0)
 
 
 def try_import(name, alternative=None, error_callback=None):
@@ -37,14 +37,14 @@ def try_import(name, alternative=None, error_callback=None):
     :param error_callback: If non-None, a callable that is passed the ImportError
         when the module cannot be loaded.
     """
-    module_segments = name.split('.')
+    module_segments = name.split(".")
     last_error = None
     remainder = []
     # module_name will be what successfully imports. We cannot walk from the
     # __import__ result because in import loops (A imports A.B, which imports
     # C, which calls try_import("A.B")) A.B will not yet be set.
     while module_segments:
-        module_name = '.'.join(module_segments)
+        module_name = ".".join(module_segments)
         try:
             __import__(module_name)
         except ImportError:
@@ -69,6 +69,8 @@ def try_import(name, alternative=None, error_callback=None):
 
 
 _RAISE_EXCEPTION = object()
+
+
 def try_imports(module_names, alternative=_RAISE_EXCEPTION, error_callback=None):
     """Attempt to import modules.
 
@@ -92,6 +94,5 @@ def try_imports(module_names, alternative=_RAISE_EXCEPTION, error_callback=None)
         if module:
             return module
     if alternative is _RAISE_EXCEPTION:
-        raise ImportError(
-            "Could not import any of: %s" % ', '.join(module_names))
+        raise ImportError("Could not import any of: %s" % ", ".join(module_names))
     return alternative
