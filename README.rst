@@ -29,7 +29,7 @@ the extras authors. See LICENSE for details.
 Required Dependencies
 ---------------------
 
- * Python 3.7+
+ * Python 3.9+
 
 
 Bug reports and patches
